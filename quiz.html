@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style>
+		#loader { 
+		  border: 16px solid #f3f3f3;
+		  border-radius: 50%;
+		  border-top: 16px solid #3498db;
+		  width: 120px;
+		  height: 120px;
+		  -webkit-animation: spin 2s linear infinite;
+		  animation: spin 2s linear infinite;
+      }
+          
+     @keyframes spin { 
+         100% { 
+             transform: rotate(360deg); 
+         } 
+     } 
+          
+     #center{
+         position: absolute; 
+         top: 0; 
+         bottom: 0; 
+         left: 0; 
+         right: 0;
+     }
+
+     .centerx {
+		  margin: 0;
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  -ms-transform: translate(-50%, -50%);
+		  transform: translate(-50%, -50%);
+		}
+
+
+
+		.not-visited{
+			background-image: url('https://data.nta.ac.in/img/QuizIcons/Logo1.png');
+			background-size: 100% 100%;
+		}
+
+		.visited{
+			background-image: url('https://data.nta.ac.in/img/QuizIcons/Logo2.png');
+			background-size: 100% 100%;
+		}
+
+		.answered{
+			background-image: url("https://data.nta.ac.in/img/QuizIcons/Logo3.png");
+			background-size: 100% 100%;
+		}
+
+		.review{
+			background-image: url("https://data.nta.ac.in/img/QuizIcons/Logo4.png");
+			background-size: 100% 100%;
+		}
+
+		.answered-review{
+			background-image: url("https://data.nta.ac.in/img/QuizIcons/Logo5.png");
+			background-size: 100% 100%;
+		}
+
+		.anchor {
+			height: 100%;
+		 	float: right;
+		 	width: 30%;
+		 	background: #ccc;
+		}
+
+		.anchor ul{
+			list-style-type: none;
+			padding-left: 5px;
+		}
+
+		.anchor li{
+			display: inline-table;
+			padding: 8px;
+			font-size: 16px;
+		}
+
+		.anchor a{
+			text-decoration: none;
+			margin: 0px 0px 4px 4px;
+			padding: 6px 10px;
+		}
+
+		.article {
+		  float: left;
+		  width: 70%;
+		  height: 100%;
+		  background-color: #f1f1f1;
+		}
+
+		table{
+			padding: 15px;
+		}
+
+		td{
+			padding-right: 30px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="center">
+		<div class="centerx">
+			<div id="loader" style="margin: auto"></p></div>
+			<p style="text-align: center">Loading...</p>
+		</div>
+	</div>
+
+<script> 
+   document.onreadystatechange = function() { 
+      if (document.readyState !== "complete") { 
+         document.querySelector("body").style.visibility = "hidden"; 
+         document.querySelector("#center").style.visibility = "visible"; 
+      } else { 
+         document.querySelector("#center").style.display = "none";
+         document.querySelector("body").style.visibility = "visible";
+         time(); 
+      } 
+   }; 
+</script>
+
+
+
+<div class="article">
+
+<div style="display:flex">
+	<div style="background-color: yellow; overflow: hidden; width: 50%; float: left; flex: 1; padding: 10px">
+		<p>Exam Name :</p>
+		<p>Year :</p>
+	</div>
+
+	<div style="overflow: hidden; width: 50%; float: right; flex: 1; display: flex; align-items: center; justify-content: center;">
+		<p id="demo" style="font-size: x-large; background-color: lightblue; padding: 10px; border-radius: 25px"></p>
+	</div>
+</div>
+
+<div id="questions">
+	<div id="page1">
+		<iframe src="https://data.nta.ac.in/Uploads/Question/1/3991/1/73_20200621192514.jpg" style="margin-left: auto; margin-right: auto; display: block; width: 90%; border: none; height: 325px"></iframe>
+
+		<table>
+		    <tbody>
+		        <tr>
+		            <td> <input type="radio" name="rad1" value="1" id="Radio0" data-waschecked="false" /> 1 ) </td>
+		            <td> <input type="radio" name="rad1" value="2" id="Radio1" /> 2 ) </td>
+		            <td> <input type="radio" name="rad1" value="3" id="Radio2" /> 3 ) </td>
+		            <td> <input type="radio" name="rad1" value="4" id="Radio3" /> 4 ) </td>
+		        </tr>
+		    </tbody>
+		</table>
+	</div>
+
+
+	<div id="page2">
+		<iframe src="https://data.nta.ac.in/Uploads/Question/1/322/1/1_20191121145508.JPG" style="margin-left: auto; margin-right: auto; display: block; width: 90%; border: none; height: 325px"></iframe>
+
+		<table>
+		    <tbody>
+		        <tr>
+		            <td> <input type="radio" name="rad2" value="1" id="Radio0" data-waschecked="false" /> 1 ) </td>
+		            <td> <input type="radio" name="rad2" value="2" id="Radio1" /> 2 ) </td>
+		            <td> <input type="radio" name="rad2" value="3" id="Radio2" /> 3 ) </td>
+		            <td> <input type="radio" name="rad2" value="4" id="Radio3" /> 4 ) </td>
+		        </tr>
+		    </tbody>
+		</table>
+	</div>
+</div>
+
+
+
+<div style="padding-top:10px;">
+    <button onclick="prst(); sv(); next()">Save &amp; Next</button>
+    <button onclick="prst(); arv(); next()">Save &amp; Mark For Review</button>
+    <button onclick="prst(); rv(); next()">Mark For Review &amp; Next</button>
+    <button onclick="prst(); clr()">Clear</button>
+</div>
+
+<div style="padding-top:10px;">
+	<button onclick="prst(); back()">Back</button>
+    <button onclick="prst(); next()">Next</button>
+    <button type="submit">Submit</button>
+</div>
+
+
+<p id="result"></p>
+</div>
+<div class="anchor">
+	<div style="border: 1px solid #777; float: left; padding: 0px 6px; margin: 6px; display: flex; justify-content: center; align-items: center;">
+		<img src="https://data.nta.ac.in/img/QuizIcons/Logo1.png" style="float: left; width: auto; height: auto;"><p> : Not Visited</p>
+	</div>
+
+	<div style="border: 1px solid #777; float: left; padding: 0px 6px; margin: 6px; display: flex; justify-content: center; align-items: center;">
+		<img src="https://data.nta.ac.in/img/QuizIcons/Logo2.png" style="float: left; width: auto; height: auto;"><p> : Visited</p>
+	</div>
+
+	<div style="border: 1px solid #777; float: left; padding: 0px 6px; margin: 6px; display: flex; justify-content: center; align-items: center;">
+		<img src="https://data.nta.ac.in/img/QuizIcons/Logo3.png" style="float: left; width: auto; height: auto;"><p> : Answered</p>
+	</div>
+
+	<div style="border: 1px solid #777; float: left; padding: 0px 6px; margin: 6px; display: flex; justify-content: center; align-items: center;">
+		<img src="https://data.nta.ac.in/img/QuizIcons/Logo4.png" style="float: left; width: auto; height: auto;"><p> : Marked for review</p>
+	</div>
+
+	<div style="border: 1px solid #777; float: left; padding: 0px 6px; margin: 6px; display: flex; justify-content: center; align-items: center;">
+		<img src="https://data.nta.ac.in/img/QuizIcons/Logo5.png" style="float: left; width: auto; height: auto;"><p> : Answered & Mareked for review</p>
+	</div>
+
+	
+
+	<div style="content: ''; display: table; clear: both"></div>
+
+
+
+	<ul>
+		<li><a href="javascript:void(0);" data-href="page1" id="a1" class="not-visited" onclick="change(this, 'a1')">01</a></li>
+		<li><a href="javascript:void(0);" data-href="page2" id="a2" class="not-visited" onclick="change(this, 'a2')">02</a></li>
+		<li><a href="javascript:void(0);" data-href="page2" id="a2" class="not-visited" onclick="change(this, 'a2')">02</a></li>
+		<li><a href="javascript:void(0);" data-href="page2" id="a2" class="not-visited" onclick="change(this, 'a2')">02</a></li>
+		<li><a href="javascript:void(0);" data-href="page2" id="a2" class="not-visited" onclick="change(this, 'a2')">02</a></li>
+		<li><a href="javascript:void(0);" data-href="page2" id="a2" class="not-visited" onclick="change(this, 'a2')">02</a></li>
+		<li><a href="javascript:void(0);" data-href="page2" id="a2" class="not-visited" onclick="change(this, 'a2')">02</a></li>
+		<li><a href="javascript:void(0);" data-href="page2" id="a2" class="not-visited" onclick="change(this, 'a2')">02</a></li>
+		<li><a href="javascript:void(0);" data-href="page2" id="a2" class="not-visited" onclick="change(this, 'a2')">02</a></li>
+		<li><a href="javascript:void(0);" data-href="page2" id="a2" class="not-visited" onclick="change(this, 'a2')">02</a></li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+	arr=["non-visited", "visited", "answered", "review", "answered-review"];
+
+	//for review button
+	function rv(){
+		document.getElementById("a"+(num)).className=arr[3];
+	}
+	//for answered and review(arv) button
+	function arv(){
+		document.getElementById("a"+(num)).className=arr[4];
+	}
+	//for save button
+	function sv(){
+		document.getElementById("a"+(num)).className=arr[2];
+	}
+	//for changing the background image of the achor tag
+	function change_img(a_id, x){
+		var class_name=document.getElementById(a_id).className;
+		if(class_name==arr[2]||class_name==arr[3]||class_name==arr[4]){
+			return;
+		};
+		document.getElementById(a_id).className=arr[x];
+	}
+
+	function clr(){
+		$("#questions").children("div").each(function(){
+			if($(this).css("display")=="block"){
+				$("#".concat(this.id)).find("input:radio:checked").prop("checked", false);
+			};
+		});
+		document.getElementById("a"+(num)).className=arr[1];
+	}
+
+	//for present question status
+	function prst(){
+		$("#questions").children('div').each(function(){
+			if($(this).css("display")=="block"){
+				id=this.id;
+				num=Number(id.slice(4, 10));
+			}
+		})
+	}
+
+	//for implementing the next button methods
+	function next(){
+		var page="page"+(num+1);
+		change_img("a"+(num+1), 1);
+		$("div#questions div").css("display", "block");
+		$("div#questions div").not("#".concat(page)).css("display", "none");
+		return false;
+	}
+
+	function back(){
+		var page="page"+(num-1);
+		change_img("a"+(num-1), 1);
+		$("div#questions div").css("display", "block");
+		$("div#questions div").not("#".concat(page)).css("display", "none");
+		return false;	
+	}
+
+	function change(anchor, id){
+		var page=anchor.getAttribute("data-href");
+		change_img(id, 1);
+		$("div#questions div").css("display", "block");
+		$("div#questions div").not("#".concat(page)).css("display", "none");
+	}
+
+	function save() { 
+        var ele = document.getElementsByName('rad1');
+        for(i = 0; i < ele.length; i++) {
+            if(ele[i].checked)
+            document.getElementById("result").innerHTML = "Option: "+ele[i].value;
+        }
+    }
+
+</script>
+
+<script>
+	document.getElementById("a1").className="visited";
+	$("div#questions div").css("display", "block");
+	$("div#questions div").not("#page1").css("display", "none");
+</script>
+
+
+
+
+<script>
+function time(){
+	// Set the date we're counting down to
+
+var dt = new Date();
+dt.setHours( dt.getHours() + 3);
+
+	// Update the count down every 1 second
+	var x = setInterval(function() {
+
+	  // Get today's date and time
+	  var now = new Date().getTime();
+	    
+	  // Find the distance between now and the count down date
+	  var distance = dt - now;
+	    
+	  // Time calculations for days, hours, minutes and seconds
+	  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+	  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+	    
+	  // Output the result in an element with id="demo"
+	  document.getElementById("demo").innerHTML =hours + "h "
+	  + minutes + "m " + seconds + "s ";
+	    
+	  // If the count down is over, write some text 
+	  if (distance < 0) {
+	    clearInterval(x);
+	    document.getElementById("demo").innerHTML = "EXPIRED";
+	  }
+	}, 1000);
+}
+
+</script>
+
+
+<script type="text/javascript">
+
+	$(function(){
+	    $('input[name="rad01"]').click(function(){
+	        var $radio = $(this);
+	        
+	        // if this was previously checked
+	        if ($radio.data('waschecked') == true)
+	        {
+	            $radio.prop('checked', false);
+	            $radio.data('waschecked', false);
+	        }
+	        else
+	            $radio.data('waschecked', true);
+	        
+	        // remove was checked from other radios
+	        $radio.siblings('input[name="rad"]').data('waschecked', false);
+	    });
+	});
+</script>
+
+</body>
+</html>
